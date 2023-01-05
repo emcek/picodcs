@@ -1,5 +1,5 @@
-import time
 from enum import Enum
+from time import sleep_ms, sleep_us
 
 import framebuf
 from machine import Pin, SPI, PWM
@@ -76,11 +76,11 @@ class LCD3inch5(framebuf.FrameBuffer):
     def init_display(self):
         """Initialize display."""
         self.rst(1)
-        time.sleep_ms(5)
+        sleep_ms(5)
         self.rst(0)
-        time.sleep_ms(10)
+        sleep_ms(10)
         self.rst(1)
-        time.sleep_ms(5)
+        sleep_ms(5)
         self.write_cmd(0x21)
         self.write_cmd(0xC2)
         self.write_data(0x33)
@@ -127,7 +127,7 @@ class LCD3inch5(framebuf.FrameBuffer):
         self.write_cmd(0X3A)
         self.write_data(0x55)
         self.write_cmd(0x11)
-        time.sleep_ms(120)
+        sleep_ms(120)
         self.write_cmd(0x29)
         self.write_cmd(0xB6)
         self.write_data(0x00)
@@ -213,7 +213,7 @@ class LCD3inch5(framebuf.FrameBuffer):
             for _ in range(0, 3):
                 self.spi.write(bytearray([0XD0]))
                 read_date = self.spi.read(2)
-                time.sleep_us(10)
+                sleep_us(10)
                 point_x = point_x + (((read_date[0] << 8) + read_date[1]) >> 3)
 
                 self.spi.write(bytearray([0X90]))
