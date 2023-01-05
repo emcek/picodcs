@@ -137,7 +137,7 @@ class Pico:
             # buffer from the USB to serial port
             self.read_serial_input()
 
-            ########################### app per tick code here
+            # app per tick code here
 
             # debug ram issues
             self.lcd.text(str(gc.mem_free()), 1, self.lcd.height - 9, 0xFFFF)
@@ -153,7 +153,7 @@ class Pico:
                 latest_input_line = self.input_line_this_tick
             self.lcd.text(latest_input_line, 5, 14, 0xFFFF)
 
-            ########################### end app per tick code here
+            # end app per tick code here
 
             # single draw call at the end of eack tick
             self.lcd.show()

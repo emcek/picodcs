@@ -33,7 +33,7 @@ if __name__ == '__main__':
     while True:
         current_media_info = get_media_info()
 
-        if current_media_info != previous_media_info and current_media_info != None:
+        if current_media_info != previous_media_info and current_media_info is None:
             print(current_media_info['title'])
             previous_media_info = current_media_info
             sleep(1)
