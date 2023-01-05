@@ -1,20 +1,18 @@
-from enum import Enum
 from time import sleep_ms, sleep_us
 
 import framebuf
 from machine import Pin, SPI, PWM
 
 
-class LcdPin(Enum):
-    LCD_DC = 8
-    LCD_CS = 9
-    LCD_SCK = 10
-    LCD_MOSI = 11
-    LCD_MISO = 12
-    LCD_BL = 13
-    LCD_RST = 15
-    TP_CS = 16
-    TP_IRQ = 17
+LCD_DC = 8
+LCD_CS = 9
+LCD_SCK = 10
+LCD_MOSI = 11
+LCD_MISO = 12
+LCD_BL = 13
+LCD_RST = 15
+TP_CS = 16
+TP_IRQ = 17
 
 
 class LCD3inch5(framebuf.FrameBuffer):
@@ -42,18 +40,18 @@ class LCD3inch5(framebuf.FrameBuffer):
         self.width = 480
         self.height = 160
 
-        self.cs = Pin(LcdPin.LCD_CS, Pin.OUT)
-        self.rst = Pin(LcdPin.LCD_RST, Pin.OUT)
-        self.dc = Pin(LcdPin.LCD_DC, Pin.OUT)
+        self.cs = Pin(LCD_CS, Pin.OUT)
+        self.rst = Pin(LCD_RST, Pin.OUT)
+        self.dc = Pin(LCD_DC, Pin.OUT)
 
-        self.tp_cs = Pin(LcdPin.TP_CS, Pin.OUT)
-        self.irq = Pin(LcdPin.TP_IRQ, Pin.IN)
+        self.tp_cs = Pin(TP_CS, Pin.OUT)
+        self.irq = Pin(TP_IRQ, Pin.IN)
 
         self.cs(1)
         self.dc(1)
         self.rst(1)
         self.tp_cs(1)
-        self.spi = SPI(1, 60_000_000, sck=Pin(LcdPin.LCD_SCK), mosi=Pin(LcdPin.LCD_MOSI), miso=Pin(LcdPin.LCD_MISO))
+        self.spi = SPI(1, 60_000_000, sck=Pin(LCD_SCK), mosi=Pin(LCD_MOSI), miso=Pin(LCD_MISO))
 
         self.buffer = bytearray(self.height * self.width * 2)
         super().__init__(self.buffer, self.width, self.height, framebuf.RGB565)
@@ -190,7 +188,7 @@ class LCD3inch5(framebuf.FrameBuffer):
 
         :param duty: 1-100 % as integer
         """
-        pwm = PWM(Pin(LcdPin.LCD_BL))
+        pwm = PWM(Pin(LCD_BL))
         pwm.freq(1000)
         if duty >= 100:
             pwm.duty_u16(65535)
@@ -235,7 +233,7 @@ class LCD3inch5(framebuf.FrameBuffer):
         :return: tuple of coordinates: x and y
         """
         if self.irq() == 0:
-            self.spi = SPI(1, 5_000_000, sck=Pin(LcdPin.LCD_SCK), mosi=Pin(LcdPin.LCD_MOSI), miso=Pin(LcdPin.LCD_MISO))
+            self.spi = SPI(1, 5_000_000, sck=Pin(LCD_SCK), mosi=Pin(LCD_MOSI), miso=Pin(LCD_MISO))
             self.tp_cs(0)
             point_x = 0
             point_y = 0
@@ -253,5 +251,5 @@ class LCD3inch5(framebuf.FrameBuffer):
             point_y = point_y / 3
 
             self.tp_cs(1)
-            self.spi = SPI(1, 60_000_000, sck=Pin(LcdPin.LCD_SCK), mosi=Pin(LcdPin.LCD_MOSI), miso=Pin(LcdPin.LCD_MISO))
+            self.spi = SPI(1, 60_000_000, sck=Pin(LCD_SCK), mosi=Pin(LCD_MOSI), miso=Pin(LCD_MISO))
             return point_x, point_y
