@@ -1,3 +1,5 @@
+[![MicroPython CI](https://github.com/emcek/picodcs/actions/workflows/micro-py-ci.yml/badge.svg)](https://github.com/emcek/picodcs/actions/workflows/micro-py-ci.yml)
+
 ## picodcs
 Export DCS World aircraft data to Raspberry Pi Pico with LCD.
 
