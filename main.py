@@ -62,13 +62,11 @@ TERMINATOR = "\n"
 
 
 class Pico:
-    """
-    Global singleton, so we can use `self`. instead of global.
-    Not sure if this will increase ram usage.
-    """
+    """Pico class."""
     def __init__(self):
         """
         Run any once-off startup tasks.
+
         Set up the global LCD object.
         Set up input.
         """
@@ -116,6 +114,7 @@ class Pico:
     def main(self):
         """
         Code entrypoint.
+
         The function that gets called to start.
         All non-setup code here or in functions under it.
         """
@@ -168,6 +167,7 @@ class Pico:
     def read_input(self):
         """
         Records which keys are pressed or not.
+
         Global variables key_<a,b,2,3,4,5,6>_pressed will be set to True or False for reading by other code.
         """
         # 0 means pressed
@@ -182,6 +182,7 @@ class Pico:
     def read_serial_input(self):
         """
         Buffers serial input.
+
         Writes it to input_line_this_tick when we have a full line.
         Clears input_line_this_tick otherwise.
         """
