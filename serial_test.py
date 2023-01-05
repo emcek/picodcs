@@ -37,6 +37,7 @@ class SerialSender:
         self.serial.write(line.encode('UTF8'))
 
     def close(self):
+        """Exit."""
         self.serial.close()
 
 

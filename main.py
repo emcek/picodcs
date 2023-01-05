@@ -118,7 +118,6 @@ class Pico:
         The function that gets called to start.
         All non-setup code here or in functions under it.
         """
-
         background_color = 0xB642F5
         counter = 0
 
