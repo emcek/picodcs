@@ -1,4 +1,4 @@
-import time
+from time import sleep
 from waveshare import LCD3inch5
 
 
@@ -47,4 +47,4 @@ if __name__ == '__main__':
             LCD.text("Button3", 400, 110, LCD.BLACK)
 
         LCD.show_down()
-        time.sleep(0.1)
+        sleep(0.1)
