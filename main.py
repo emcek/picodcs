@@ -16,14 +16,14 @@ def main():
         display_color = display_color << 1
     lcd.show_up()
     while True:
-        get = lcd.touch_get()
-        if get is not None:
-            x_point = int((get[1] - 430) * 480 / 3270)
+        coord_x_y = lcd.touch_get()
+        if coord_x_y is not None:
+            x_point = int((coord_x_y[1] - 430) * 480 / 3270)
             if x_point > 480:
                 x_point = 480
             elif x_point < 0:
                 x_point = 0
-            y_point = 320 - int((get[0] - 430) * 320 / 3270)
+            y_point = 320 - int((coord_x_y[0] - 430) * 320 / 3270)
             if y_point > 220:
                 lcd.fill(lcd.WHITE)
                 if x_point < 120:
