@@ -28,6 +28,7 @@ class LCD3inch5(framebuf.FrameBuffer):
     https://www.waveshare.com/pico-eval-board.htm
     """
     def __init__(self):
+        """"Initialize low level FrameBuffer."""
         self.RED = 0x07E0
         self.GREEN = 0x001f
         self.BLUE = 0xf800
@@ -65,12 +66,11 @@ class LCD3inch5(framebuf.FrameBuffer):
         self.cs(1)
         self.dc(1)
         self.cs(0)
-        # self.spi.write(bytearray([0X00]))
         self.spi.write(bytearray([buf]))
         self.cs(1)
 
     def init_display(self):
-        """Initialize display"""
+        """Initialize display."""
         self.rst(1)
         time.sleep_ms(5)
         self.rst(0)
@@ -125,11 +125,9 @@ class LCD3inch5(framebuf.FrameBuffer):
         self.write_cmd(0x11)
         time.sleep_ms(120)
         self.write_cmd(0x29)
-
         self.write_cmd(0xB6)
         self.write_data(0x00)
         self.write_data(0x62)
-
         self.write_cmd(0x36)
         self.write_data(0x28)
 
@@ -139,15 +137,12 @@ class LCD3inch5(framebuf.FrameBuffer):
         self.write_data(0x00)
         self.write_data(0x01)
         self.write_data(0xdf)
-
         self.write_cmd(0x2B)
         self.write_data(0x00)
         self.write_data(0x00)
         self.write_data(0x00)
         self.write_data(0x9f)
-
         self.write_cmd(0x2C)
-
         self.cs(1)
         self.dc(1)
         self.cs(0)
@@ -160,15 +155,12 @@ class LCD3inch5(framebuf.FrameBuffer):
         self.write_data(0x00)
         self.write_data(0x01)
         self.write_data(0xdf)
-
         self.write_cmd(0x2B)
         self.write_data(0x00)
         self.write_data(0xA0)
         self.write_data(0x01)
         self.write_data(0x3f)
-
         self.write_cmd(0x2C)
-
         self.cs(1)
         self.dc(1)
         self.cs(0)
@@ -186,7 +178,6 @@ class LCD3inch5(framebuf.FrameBuffer):
 
     def draw_point(self, x, y, color):
         self.write_cmd(0x2A)
-
         self.write_data((x - 2) >> 8)
         self.write_data((x - 2) & 0xff)
         self.write_data(x >> 8)
@@ -199,7 +190,6 @@ class LCD3inch5(framebuf.FrameBuffer):
         self.write_data(y & 0xff)
 
         self.write_cmd(0x2C)
-
         self.cs(1)
         self.dc(1)
         self.cs(0)
@@ -231,6 +221,4 @@ class LCD3inch5(framebuf.FrameBuffer):
 
             self.tp_cs(1)
             self.spi = SPI(1, 60_000_000, sck=Pin(LCD_SCK), mosi=Pin(LCD_MOSI), miso=Pin(LCD_MISO))
-            result_list = [point_x, point_y]
-            print(result_list)
-            return result_list
+            return [point_x, point_y]
