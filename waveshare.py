@@ -19,8 +19,8 @@ class LcdPin(Enum):
 
 class LCD3inch5(framebuf.FrameBuffer):
     """
-    Waveshare 20159
-    3.5" (480×320 Pixels, 65K colors) IPS LCD
+    Waveshare 3.5" (480×320 Pixels, 65K colors) IPS LCD.
+
     * resistive touch
     * microSD slot through the SDIO interface
     * mini jack 3,5 mm,
@@ -29,7 +29,7 @@ class LCD3inch5(framebuf.FrameBuffer):
     * RGB LED
     * PH2.0 battery header for connecting 3.7V Li-po battery
 
-    https://www.waveshare.com/pico-eval-board.htm
+    Waveshare 20159: https://www.waveshare.com/pico-eval-board.htm
     """
     def __init__(self):
         """Initialize low level FrameBuffer."""
@@ -60,6 +60,11 @@ class LCD3inch5(framebuf.FrameBuffer):
         self.init_display()
 
     def write_cmd(self, cmd):
+        """
+        Write command as integer.
+
+        :param cmd:
+        """
         self.cs(1)
         self.dc(0)
         self.cs(0)
@@ -67,6 +72,11 @@ class LCD3inch5(framebuf.FrameBuffer):
         self.cs(1)
 
     def write_data(self, buf):
+        """
+        Write data as integer.
+
+        :param buf:
+        """
         self.cs(1)
         self.dc(1)
         self.cs(0)
@@ -136,6 +146,7 @@ class LCD3inch5(framebuf.FrameBuffer):
         self.write_data(0x28)
 
     def show_up(self):
+        """Show Up."""
         self.write_cmd(0x2A)
         self.write_data(0x00)
         self.write_data(0x00)
@@ -154,6 +165,7 @@ class LCD3inch5(framebuf.FrameBuffer):
         self.cs(1)
 
     def show_down(self):
+        """Show Down."""
         self.write_cmd(0x2A)
         self.write_data(0x00)
         self.write_data(0x00)
@@ -173,6 +185,11 @@ class LCD3inch5(framebuf.FrameBuffer):
 
     @staticmethod
     def backlight(duty):
+        """
+        Set backlight.
+
+        :param duty: 1-100 % as integer
+        """
         pwm = PWM(Pin(LcdPin.LCD_BL))
         pwm.freq(1000)
         if duty >= 100:
@@ -181,6 +198,13 @@ class LCD3inch5(framebuf.FrameBuffer):
             pwm.duty_u16(655 * duty)
 
     def draw_point(self, x, y, color):
+        """
+        Draw a point.
+
+        :param x: int
+        :param y: int
+        :param color: int
+        """
         self.write_cmd(0x2A)
         self.write_data((x - 2) >> 8)
         self.write_data((x - 2) & 0xff)
@@ -205,6 +229,11 @@ class LCD3inch5(framebuf.FrameBuffer):
         self.cs(1)
 
     def touch_get(self):
+        """
+        Get list of coordinates (x and y) for touched point.
+
+        :return: list of coordinates: x and y
+        """
         if self.irq() == 0:
             self.spi = SPI(1, 5_000_000, sck=Pin(LcdPin.LCD_SCK), mosi=Pin(LcdPin.LCD_MOSI), miso=Pin(LcdPin.LCD_MISO))
             self.tp_cs(0)
