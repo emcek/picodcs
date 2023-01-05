@@ -24,16 +24,16 @@ jobs:
           pip install -Ur requirements_test.txt
       - name: Check PyCodeStyle
         run: |
-          pycodestyle --statistics --count dcspy
+          pycodestyle --statistics --count .
       - name: Check PyDocStyle
         run: |
-          pydocstyle --count dcspy
+          pydocstyle --count .
 #      - name: Check interrogate
 #        run: |
 #          interrogate -c pyproject.toml -vv
       - name: Check PyLint
         run: |
-          pylint dcspy || echo $(($? % 4))
+          pylint . || echo $(($? % 4))
       - name: Check flake8
         run: |
           flake8 . --select=E9,F63,F7,F82 --show-source
@@ -69,7 +69,7 @@ jobs:
 #        with:
 #          name: pytest-${{ matrix.os }}-${{ matrix.python-version }}
 #          path: |
-#            dcspy.log
+#            some.log
 #          retention-days: 5
       - name: Check pip-audit
         run: |
