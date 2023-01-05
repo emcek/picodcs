@@ -213,13 +213,16 @@ class Pico:
             self.input_line_this_tick = ""
 
     def exit(self):
+        """Exit."""
         self.run_loop = False
 
     def on_key_a_pressed(self, p):
+        """When button is pressed."""
         print("key a pressed: ", p)
 
 
 def pico_serial():
+    """Run Pico example."""
     pico = Pico()
     pico.main()
     # when the above exits, clean up
