@@ -3,6 +3,7 @@ from waveshare import LCD3inch5
 
 
 def main():
+    """Demo code form Waveshare."""
     lcd = LCD3inch5()
     lcd.backlight(20)
     lcd.fill(lcd.WHITE)
