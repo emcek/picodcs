@@ -2,7 +2,7 @@ from time import sleep
 from waveshare import LCD3inch5
 
 
-if __name__ == '__main__':
+def main():
     lcd = LCD3inch5()
     lcd.backlight(20)
     lcd.fill(lcd.WHITE)
@@ -14,7 +14,6 @@ if __name__ == '__main__':
         lcd.fill_rect(i * 30 + 60, 100, 30, 50, display_color)
         display_color = display_color << 1
     lcd.show_up()
-
     while True:
         get = lcd.touch_get()
         if get is not None:
@@ -47,3 +46,7 @@ if __name__ == '__main__':
 
         lcd.show_down()
         sleep(0.1)
+
+
+if __name__ == '__main__':
+    main()
