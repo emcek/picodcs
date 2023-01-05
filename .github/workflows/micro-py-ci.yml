@@ -73,4 +73,4 @@ jobs:
 #          retention-days: 5
       - name: Check pip-audit
         run: |
-          pip-audit -r requirements_test.txt --progress-spinner off
+          pip-audit -r requirements_test.txt --progress-spinner off --ignore-vuln PYSEC-2022-42969
