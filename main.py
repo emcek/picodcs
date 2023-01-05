@@ -10,7 +10,7 @@ def main():
     lcd.text("Raspberry Pi Pico", 170, 17, lcd.WHITE)
     display_color = 0x001F
     lcd.text("3.5' IPS LCD TEST", 170, 57, lcd.BLACK)
-    for i in range(0, 12):
+    for i in range(12):
         lcd.fill_rect(i * 30 + 60, 100, 30, 50, display_color)
         display_color = display_color << 1
     lcd.show_up()

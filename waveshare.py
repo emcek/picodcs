@@ -197,7 +197,7 @@ class LCD3inch5(framebuf.FrameBuffer):
         self.cs(1)
         self.dc(1)
         self.cs(0)
-        for _ in range(0, 9):
+        for _ in range(9):
             h_color = bytearray(color >> 8)
             l_color = bytearray(color & 0xff)
             self.spi.write(h_color)
@@ -210,7 +210,7 @@ class LCD3inch5(framebuf.FrameBuffer):
             self.tp_cs(0)
             point_x = 0
             point_y = 0
-            for _ in range(0, 3):
+            for _ in range(3):
                 self.spi.write(bytearray([0XD0]))
                 read_date = self.spi.read(2)
                 sleep_us(10)
