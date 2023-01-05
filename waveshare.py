@@ -230,9 +230,9 @@ class LCD3inch5(framebuf.FrameBuffer):
 
     def touch_get(self):
         """
-        Get list of coordinates (x and y) for touched point.
+        Get tuple of coordinates (x and y) for touched point.
 
-        :return: list of coordinates: x and y
+        :return: tuple of coordinates: x and y
         """
         if self.irq() == 0:
             self.spi = SPI(1, 5_000_000, sck=Pin(LcdPin.LCD_SCK), mosi=Pin(LcdPin.LCD_MOSI), miso=Pin(LcdPin.LCD_MISO))
@@ -254,4 +254,4 @@ class LCD3inch5(framebuf.FrameBuffer):
 
             self.tp_cs(1)
             self.spi = SPI(1, 60_000_000, sck=Pin(LcdPin.LCD_SCK), mosi=Pin(LcdPin.LCD_MOSI), miso=Pin(LcdPin.LCD_MISO))
-            return [point_x, point_y]
+            return point_x, point_y
