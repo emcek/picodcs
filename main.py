@@ -99,7 +99,7 @@ class Pico:
         self.lcd.text(
             f"press A+B within {boot_delay_seconds} seconds to", 1, 11, 0xFFFF
         )
-        self.lcd.text(f"cancel boot...", 1, 21, 0xFFFF)
+        self.lcd.text("cancel boot...", 1, 21, 0xFFFF)
         self.lcd.show()
 
         self.run_loop = True
