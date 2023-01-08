@@ -229,6 +229,11 @@ def pico_serial():
 
 
 def logo(display):
+    """
+    Show MircoPython logo at LCD.
+
+    :param display: lcd instance
+    """
     display.fill(0)
     display.fill_rect(0, 0, 32, 32, 1)
     display.fill_rect(2, 2, 28, 28, 0)
