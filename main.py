@@ -74,7 +74,7 @@ class Pico:
 
         self.lcd.fill(0x0000)
         self.lcd.text("loading...", 1, 1, 0xFFFF)
-        self.lcd.show()
+        self.lcd.show_up()
 
         self.key_a = Pin(15, Pin.IN, Pin.PULL_UP)
         # interrupt
@@ -100,7 +100,7 @@ class Pico:
             f"press A+B within {boot_delay_seconds} seconds to", 1, 11, 0xFFFF
         )
         self.lcd.text("cancel boot...", 1, 21, 0xFFFF)
-        self.lcd.show()
+        self.lcd.show_up()
 
         self.run_loop = True
 
@@ -138,10 +138,9 @@ class Pico:
             # app per tick code here
 
             # debug ram issues
-            self.lcd.text(str(gc.mem_free()), 1, self.lcd.height - 9, 0xFFFF)
+            # self.lcd.text(str(gc.mem_free()), 1, self.lcd.height - 9, 0xFFFF)
 
             # simple output test
-            print(counter)
             counter += 1
             self.lcd.text(str(counter), 5, 5, 0xFFFF)
 
@@ -153,8 +152,8 @@ class Pico:
 
             # end app per tick code here
 
-            # single draw call at the end of eack tick
-            self.lcd.show()
+            # single draw call at the end of each tick
+            self.lcd.show_down()
 
             # quit program to avoid locking serial up if specified
             if self.key_a_pressed and self.key_b_pressed:
@@ -230,5 +229,5 @@ def pico_serial():
 
 
 if __name__ == '__main__':
-    main()
-    # pico_serial()
+    # main()
+    pico_serial()
