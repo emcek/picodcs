@@ -226,11 +226,11 @@ class LCD3inch5(framebuf.FrameBuffer):
             self.spi.write(l_color)
         self.cs(1)
 
-    def touch_get(self):
+    def absolute_coord(self):
         """
-        Get tuple of coordinates (x and y) for touched point.
+        Get absolute coordinates (x and y) for touched point.
 
-        :return: tuple of coordinates: x and y
+        :return: tuple of int coordinates: x and y
         """
         if self.irq() == 0:
             self.spi = SPI(1, 5_000_000, sck=Pin(LCD_SCK), mosi=Pin(LCD_MOSI), miso=Pin(LCD_MISO))
@@ -241,15 +241,31 @@ class LCD3inch5(framebuf.FrameBuffer):
                 self.spi.write(bytearray([0XD0]))
                 read_date = self.spi.read(2)
                 sleep_us(10)
-                point_x = point_x + (((read_date[0] << 8) + read_date[1]) >> 3)
+                point_y = point_y + (((read_date[0] << 8) + read_date[1]) >> 3)
+                # print(f'y {point_y:>6.1f}')
 
                 self.spi.write(bytearray([0X90]))
                 read_date = self.spi.read(2)
-                point_y = point_y + (((read_date[0] << 8) + read_date[1]) >> 3)
+                # sleep_us(10)
+                point_x = point_x + (((read_date[0] << 8) + read_date[1]) >> 3)
+                # print(f'x {point_x:>6.1f}')
 
             point_x = point_x / 3
             point_y = point_y / 3
 
             self.tp_cs(1)
             self.spi = SPI(1, 60_000_000, sck=Pin(LCD_SCK), mosi=Pin(LCD_MOSI), miso=Pin(LCD_MISO))
+            print('####', f'x: {point_x:>6.1f} y: {point_y:>6.1f}')
             return point_x, point_y
+
+    def get_touchpoint(self):
+        """
+        Get scaled coordinates: x and y.
+
+        :return: tuple of int coordinates: x and y
+        """
+        coord_x_y = self.absolute_coord()
+        x_point = int((coord_x_y[0] - 430) * 480 / 3270)
+        y_point = int((coord_x_y[1] - 430) * 320 / 3270)
+        print('****', f'x: {x_point:>3} y: {y_point:>3}\n')
+        return x_point, y_point
