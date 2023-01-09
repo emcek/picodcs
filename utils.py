@@ -9,4 +9,15 @@ class Color:
     BLACK = 0x0000
 
 
+class Position:
+    N = 'N'
+    NE = 'NE'
+    E = 'E'
+    SE = 'SE'
+    S = 'S'
+    SW = 'SW'
+    W = 'W'
+    NW = 'NW'
+
+
 Coord = namedtuple('Coord', ('x', 'y'))
