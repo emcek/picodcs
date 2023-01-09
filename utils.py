@@ -2,6 +2,7 @@ from collections import namedtuple
 
 
 class Color:
+    """Basic colors values in hex."""
     RED = 0x07E0
     GREEN = 0x001f
     BLUE = 0xf800
@@ -10,6 +11,7 @@ class Color:
 
 
 class Position:
+    """Position primitives."""
     N = 'N'
     NE = 'NE'
     E = 'E'
