@@ -238,46 +238,54 @@ def main2():
     lcd = LCD3inch5()
     lcd.backlight(20)
     lcd.fill(Color.WHITE)
-    keyboard_icon(lcd, 'SE')
+    keyboard_icon(lcd, Position.SE)
     lcd.show_down()
     while True:
         coord = lcd.get_touchpoint()
         if coord is not None:
             if coord.y < 32:
                 if 420 < coord.x < 480:
-                    lcd.fill_rect(lcd.width - 68, lcd.height - 32, 68, 32, Color.RED)
+                    # lcd.fill_rect(lcd.width - 68, lcd.height - 32, 68, 32, Color.RED)
+                    keyboard_icon(lcd, Position.SE, True)
         else:
             lcd.fill(Color.WHITE)
-            keyboard_icon(lcd, 'SE')
+            keyboard_icon(lcd, Position.SE)
         lcd.show_down()
         sleep(0.1)
 
 
-def keyboard_icon(lcd: FrameBuffer, pos=Position.SE):
+def keyboard_icon(lcd: LCD3inch5, pos=Position.SE, invert=False):
     """
     Show keyboard icon.
 
     :param lcd: LDC instance
     :param pos: 'SE' or 'NW'
+    :param invert: invert colors
     """
+    foreground = Color.BLACK
+    background = Color.WHITE
+    if invert:
+        foreground = Color.WHITE
+        background = Color.BLACK
+
     if pos == Position.SE:
         # keyboard icon down right
-        lcd.fill_rect(lcd.width - 68, lcd.height - 32, 68, 32, Color.BLACK)
-        lcd.fill_rect(lcd.width - 66, lcd.height - 30, 64, 28, Color.WHITE)
+        lcd.fill_rect(lcd.width - 68, lcd.height - 32, 68, 32, foreground)
+        lcd.fill_rect(lcd.width - 66, lcd.height - 30, 64, 28, background)
         for i in range(6):
-            lcd.fill_rect(10 * i + lcd.width - 60, lcd.height - 10, 4, 4, Color.BLACK)
-            lcd.fill_rect(10 * i + lcd.width - 60, lcd.height - 18, 4, 4, Color.BLACK)
-            lcd.fill_rect(10 * i + lcd.width - 60, lcd.height - 26, 4, 4, Color.BLACK)
-        lcd.fill_rect(lcd.width - 48, lcd.height - 10, 28, 4, Color.BLACK)
+            lcd.fill_rect(10 * i + lcd.width - 60, lcd.height - 10, 4, 4, foreground)
+            lcd.fill_rect(10 * i + lcd.width - 60, lcd.height - 18, 4, 4, foreground)
+            lcd.fill_rect(10 * i + lcd.width - 60, lcd.height - 26, 4, 4, foreground)
+        lcd.fill_rect(lcd.width - 48, lcd.height - 10, 28, 4, foreground)
     elif pos == Position.NW:
         # keyboard icon upper left
-        lcd.fill_rect(0, 0, 68, 32, Color.BLACK)
-        lcd.fill_rect(2, 2, 64, 28, Color.WHITE)
+        lcd.fill_rect(0, 0, 68, 32, foreground)
+        lcd.fill_rect(2, 2, 64, 28, background)
         for i in range(6):
-            lcd.fill_rect(10 * i + 6, 6, 4, 4, Color.BLACK)
-            lcd.fill_rect(10 * i + 6, 14, 4, 4, Color.BLACK)
-            lcd.fill_rect(10 * i + 6, 22, 4, 4, Color.BLACK)
-        lcd.fill_rect(18, 22, 28, 4, Color.BLACK)
+            lcd.fill_rect(10 * i + 6, 6, 4, 4, foreground)
+            lcd.fill_rect(10 * i + 6, 14, 4, 4, foreground)
+            lcd.fill_rect(10 * i + 6, 22, 4, 4, foreground)
+        lcd.fill_rect(18, 22, 28, 4, foreground)
 
 
 if __name__ == '__main__':
