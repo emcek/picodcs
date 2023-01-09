@@ -1,22 +1,24 @@
+import gc
+from sys import stdin
 from time import sleep, sleep_ms
-from waveshare import LCD3inch5
 
 import framebuf
 import uselect
 from machine import Pin
-import gc
-from sys import stdin
+
+from utils import Color
+from waveshare import LCD3inch5
 
 
 def main():
     """Demo code form Waveshare."""
     lcd = LCD3inch5()
     lcd.backlight(20)
-    lcd.fill(lcd.WHITE)
-    lcd.fill_rect(140, 5, 200, 30, lcd.RED)
-    lcd.text("Raspberry Pi Pico", 170, 17, lcd.WHITE)
+    lcd.fill(Color.WHITE)
+    lcd.fill_rect(140, 5, 200, 30, Color.RED)
+    lcd.text("Raspberry Pi Pico", 170, 17, Color.WHITE)
     display_color = 0x001F
-    lcd.text("3.5' IPS LCD TEST", 170, 57, lcd.BLACK)
+    lcd.text("3.5' IPS LCD TEST", 170, 57, Color.BLACK)
     for i in range(12):
         lcd.fill_rect(i * 30 + 60, 100, 30, 50, display_color)
         display_color = display_color << 1
@@ -29,11 +31,11 @@ def main():
             y_point = int((coord_x_y[1] - 430) * 320 / 3270)
             print('****', f'x: {x_point:>3} y: {y_point:>3}\n')
         else:
-            lcd.fill(lcd.WHITE)
-            lcd.text("Button0", 20, 110, lcd.BLACK)
-            lcd.text("Button1", 150, 110, lcd.BLACK)
-            lcd.text("Button2", 270, 110, lcd.BLACK)
-            lcd.text("Button3", 400, 110, lcd.BLACK)
+            lcd.fill(Color.WHITE)
+            lcd.text("Button0", 20, 110, Color.BLACK)
+            lcd.text("Button1", 150, 110, Color.BLACK)
+            lcd.text("Button2", 270, 110, Color.BLACK)
+            lcd.text("Button3", 400, 110, Color.BLACK)
 
         lcd.show_down()
         sleep(0.1)
@@ -235,7 +237,7 @@ def main2():
     """Demo code form Waveshare."""
     lcd = LCD3inch5()
     lcd.backlight(20)
-    lcd.fill(lcd.WHITE)
+    lcd.fill(Color.WHITE)
     keyboard_icon(lcd, 'SE')
     lcd.show_down()
     while True:
@@ -243,9 +245,9 @@ def main2():
         if coord is not None:
             if coord.y < 32:
                 if 420 < coord.x < 480:
-                    lcd.fill_rect(lcd.width - 68, lcd.height - 32, 68, 32, lcd.RED)
+                    lcd.fill_rect(lcd.width - 68, lcd.height - 32, 68, 32, Color.RED)
         else:
-            lcd.fill(lcd.WHITE)
+            lcd.fill(Color.WHITE)
             keyboard_icon(lcd, 'SE')
         lcd.show_down()
         sleep(0.1)
@@ -260,22 +262,22 @@ def keyboard_icon(lcd, pos='SE'):
     """
     if pos == 'SE':
         # keyboard icon down right
-        lcd.rect(lcd.width - 68, lcd.height - 32, 68, 32, 1)
-        lcd.rect(lcd.width - 66, lcd.height - 30, 64, 28, 1)
+        lcd.fill_rect(lcd.width - 68, lcd.height - 32, 68, 32, Color.BLACK)
+        lcd.fill_rect(lcd.width - 66, lcd.height - 30, 64, 28, Color.WHITE)
         for i in range(6):
-            lcd.fill_rect(10 * i + lcd.width - 60, lcd.height - 10, 4, 4, 0)
-            lcd.fill_rect(10 * i + lcd.width - 60, lcd.height - 18, 4, 4, 0)
-            lcd.fill_rect(10 * i + lcd.width - 60, lcd.height - 26, 4, 4, 0)
-        lcd.fill_rect(lcd.width - 48, lcd.height - 10, 28, 4, 0)
+            lcd.fill_rect(10 * i + lcd.width - 60, lcd.height - 10, 4, 4, Color.BLACK)
+            lcd.fill_rect(10 * i + lcd.width - 60, lcd.height - 18, 4, 4, Color.BLACK)
+            lcd.fill_rect(10 * i + lcd.width - 60, lcd.height - 26, 4, 4, Color.BLACK)
+        lcd.fill_rect(lcd.width - 48, lcd.height - 10, 28, 4, Color.BLACK)
     elif pos == 'NW':
         # keyboard icon upper left
-        lcd.rect(0, 0, 68, 32, 1)
-        lcd.rect(2, 2, 64, 28, 1)
+        lcd.fill_rect(0, 0, 68, 32, Color.BLACK)
+        lcd.fill_rect(2, 2, 64, 28, Color.WHITE)
         for i in range(6):
-            lcd.fill_rect(10 * i + 6, 6, 4, 4, 0)
-            lcd.fill_rect(10 * i + 6, 14, 4, 4, 0)
-            lcd.fill_rect(10 * i + 6, 22, 4, 4, 0)
-        lcd.fill_rect(18, 22, 28, 4, 0)
+            lcd.fill_rect(10 * i + 6, 6, 4, 4, Color.BLACK)
+            lcd.fill_rect(10 * i + 6, 14, 4, 4, Color.BLACK)
+            lcd.fill_rect(10 * i + 6, 22, 4, 4, Color.BLACK)
+        lcd.fill_rect(18, 22, 28, 4, Color.BLACK)
 
 
 if __name__ == '__main__':
