@@ -1,8 +1,8 @@
+from collections import namedtuple
 from time import sleep_ms, sleep_us
 
 import framebuf
 from machine import Pin, SPI, PWM
-
 
 LCD_DC = 8
 LCD_CS = 9
@@ -13,6 +13,7 @@ LCD_BL = 13
 LCD_RST = 15
 TP_CS = 16
 TP_IRQ = 17
+Coord = namedtuple('Coord', ('x', 'y'))
 
 
 class LCD3inch5(framebuf.FrameBuffer):
@@ -230,10 +231,10 @@ class LCD3inch5(framebuf.FrameBuffer):
         """
         Get absolute coordinates (x and y) for touched point.
 
-        :return: tuple of int coordinates: x and y
+        :return: tuple of float coordinates: x and y
         """
         if self.irq() == 0:
-            self.spi = SPI(1, 5_000_000, sck=Pin(LCD_SCK), mosi=Pin(LCD_MOSI), miso=Pin(LCD_MISO))
+            self.spi = SPI(1, baudrate=5_000_000, sck=Pin(LCD_SCK), mosi=Pin(LCD_MOSI), miso=Pin(LCD_MISO))
             self.tp_cs(0)
             point_x = 0
             point_y = 0
@@ -254,9 +255,9 @@ class LCD3inch5(framebuf.FrameBuffer):
             point_y = point_y / 3
 
             self.tp_cs(1)
-            self.spi = SPI(1, 60_000_000, sck=Pin(LCD_SCK), mosi=Pin(LCD_MOSI), miso=Pin(LCD_MISO))
+            self.spi = SPI(1, baudrate=60_000_000, sck=Pin(LCD_SCK), mosi=Pin(LCD_MOSI), miso=Pin(LCD_MISO))
             print('####', f'x: {point_x:>6.1f} y: {point_y:>6.1f}')
-            return point_x, point_y
+            return Coord(x=point_x, y=point_y)
 
     def get_touchpoint(self):
         """
@@ -264,8 +265,9 @@ class LCD3inch5(framebuf.FrameBuffer):
 
         :return: tuple of int coordinates: x and y
         """
-        coord_x_y = self.absolute_coord()
-        x_point = int((coord_x_y[0] - 430) * 480 / 3270)
-        y_point = int((coord_x_y[1] - 430) * 320 / 3270)
-        print('****', f'x: {x_point:>3} y: {y_point:>3}\n')
-        return x_point, y_point
+        coord = self.absolute_coord()
+        if coord is not None:
+            x_point = int((coord.x - 430) * 480 / 3270)
+            y_point = int((coord.y - 430) * 320 / 3270)
+            print('****', f'x: {x_point:>3} y: {y_point:>3}\n')
+            return Coord(x=x_point, y=y_point)
