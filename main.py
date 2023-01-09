@@ -269,7 +269,7 @@ def keyboard_icon(lcd: LCD3inch5, pos=Position.SE, invert=False):
         background = Color.BLACK
 
     if pos == Position.SE:
-        # keyboard icon down right
+        # keyboard icon lower right
         lcd.fill_rect(lcd.width - 68, lcd.height - 32, 68, 32, foreground)
         lcd.fill_rect(lcd.width - 66, lcd.height - 30, 64, 28, background)
         for i in range(6):
