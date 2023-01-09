@@ -1,8 +1,9 @@
-from collections import namedtuple
 from time import sleep_ms, sleep_us
 
 import framebuf
 from machine import Pin, SPI, PWM
+
+from utils import Coord
 
 LCD_DC = 8
 LCD_CS = 9
@@ -13,7 +14,6 @@ LCD_BL = 13
 LCD_RST = 15
 TP_CS = 16
 TP_IRQ = 17
-Coord = namedtuple('Coord', ('x', 'y'))
 
 
 class LCD3inch5(framebuf.FrameBuffer):
@@ -32,12 +32,6 @@ class LCD3inch5(framebuf.FrameBuffer):
     """
     def __init__(self):
         """Initialize low level FrameBuffer."""
-        self.RED = 0x07E0
-        self.GREEN = 0x001f
-        self.BLUE = 0xf800
-        self.WHITE = 0xffff
-        self.BLACK = 0x0000
-
         self.width = 480
         self.height = 160
 
