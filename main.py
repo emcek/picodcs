@@ -2,11 +2,11 @@ import gc
 from sys import stdin
 from time import sleep, sleep_ms
 
-import framebuf
+from framebuf import FrameBuffer
 import uselect
 from machine import Pin
 
-from utils import Color
+from utils import Color, Position
 from waveshare import LCD3inch5
 
 
@@ -215,7 +215,7 @@ def pico_serial():
     gc.collect()
 
 
-def logo(display: framebuf.FrameBuffer):
+def logo(display: FrameBuffer):
     """
     Show MircoPython logo at LCD.
 
@@ -253,14 +253,14 @@ def main2():
         sleep(0.1)
 
 
-def keyboard_icon(lcd, pos='SE'):
+def keyboard_icon(lcd: FrameBuffer, pos=Position.SE):
     """
     Show keyboard icon.
 
     :param lcd: LDC instance
     :param pos: 'SE' or 'NW'
     """
-    if pos == 'SE':
+    if pos == Position.SE:
         # keyboard icon down right
         lcd.fill_rect(lcd.width - 68, lcd.height - 32, 68, 32, Color.BLACK)
         lcd.fill_rect(lcd.width - 66, lcd.height - 30, 64, 28, Color.WHITE)
@@ -269,7 +269,7 @@ def keyboard_icon(lcd, pos='SE'):
             lcd.fill_rect(10 * i + lcd.width - 60, lcd.height - 18, 4, 4, Color.BLACK)
             lcd.fill_rect(10 * i + lcd.width - 60, lcd.height - 26, 4, 4, Color.BLACK)
         lcd.fill_rect(lcd.width - 48, lcd.height - 10, 28, 4, Color.BLACK)
-    elif pos == 'NW':
+    elif pos == Position.NW:
         # keyboard icon upper left
         lcd.fill_rect(0, 0, 68, 32, Color.BLACK)
         lcd.fill_rect(2, 2, 64, 28, Color.WHITE)
