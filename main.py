@@ -1,15 +1,15 @@
 from time import sleep
 
-from micropython import const, native
+import micropython
 
 from utils import Rect, split_rect, RectHigh, RectLow
 from waveshare import LCD3inch5
 
-RED = const(0x07E0)
-GREEN = const(0x001f)
-BLUE = const(0xf800)
-WHITE = const(0xffff)
-BLACK = const(0x0000)
+RED = micropython.const(0x07E0)
+GREEN = micropython.const(0x001f)
+BLUE = micropython.const(0xf800)
+WHITE = micropython.const(0xffff)
+BLACK = micropython.const(0x0000)
 
 
 def logo(display: LCD3inch5):
@@ -30,7 +30,7 @@ def logo(display: LCD3inch5):
     display.text('IPS 320x480', 40, 24, 1)
 
 
-@native
+@micropython.native
 def show_keyboard():
     """Demo code form Waveshare."""
     lcd = LCD3inch5()
@@ -39,10 +39,8 @@ def show_keyboard():
     lcd.show_up()
     while True:
         coord = lcd.get_touchpoint()
-        if coord is not None:
-            if coord.y < 32:
-                if 420 < coord.x < 480:
-                    keyboard_icon(lcd, 'SE', True)
+        if 0 < coord.y < 32 and 420 < coord.x < 480:
+            keyboard_icon(lcd, 'SE', True)
         else:
             lcd.fill(WHITE)
             keyboard_icon(lcd, 'SE')
@@ -50,7 +48,7 @@ def show_keyboard():
         sleep(0.1)
 
 
-@native
+@micropython.native
 def keyboard_icon(lcd: LCD3inch5, pos='SE', invert=False):
     """
     Show keyboard icon.
