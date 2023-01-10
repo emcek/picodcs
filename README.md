@@ -14,6 +14,7 @@ Export DCS World aircraft data to Raspberry Pi Pico with LCD.
 
 ## Docs
 * [MicroPython](https://docs.micropython.org/en/latest/index.html)
+* [Writing fast and efficient MicroPython](https://www.youtube.com/watch?v=hHec4qL00x0&ab_channel=PyConAU)
 
 ## Credits
 * Thanks [GSGBen](https://github.com/GSGBen/pico-serial) for nice serial communication idea
