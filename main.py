@@ -75,10 +75,10 @@ def show_keyboard():
         if coord is not None:
             if coord.y < 32:
                 if 420 < coord.x < 480:
-                    keyboard_icon(lcd, Position.SW, True)
+                    keyboard_icon(lcd, Position.SE, True)
         else:
             lcd.fill(Color.WHITE)
-            keyboard_icon(lcd, Position.SW)
+            keyboard_icon(lcd, Position.SE)
         lcd.show_down()
         sleep(0.1)
 
