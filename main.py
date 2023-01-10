@@ -49,11 +49,11 @@ def keyboard_icon(lcd: LCD3inch5, pos=Position.SE, invert=False):
     :param pos: 'SE', 'NW', 'NE', 'SW'
     :param invert: invert colors
     """
-    foreground = Color.BLACK
-    background = Color.WHITE
+    fg = Color.BLACK
+    bg = Color.WHITE
     if invert:
-        foreground = Color.WHITE
-        background = Color.BLACK
+        fg = Color.WHITE
+        bg = Color.BLACK
     ico_w, ico_h = 68, 32
     dpl_w, dpl_h = 480, 160
     if pos == Position.SE:
@@ -67,14 +67,14 @@ def keyboard_icon(lcd: LCD3inch5, pos=Position.SE, invert=False):
     x = pos_x - ico_w
     y = pos_y - ico_h
 
-    lcd.fill_rect(x, y, ico_w, ico_h, foreground)
-    lcd.fill_rect(x, y, ico_w, ico_h, foreground)
-    lcd.fill_rect(x + 2, y + 2, ico_w - 4, ico_h - 4, background)
+    lcd.fill_rect(x, y, ico_w, ico_h, fg)
+    lcd.fill_rect(x, y, ico_w, ico_h, fg)
+    lcd.fill_rect(x + 2, y + 2, ico_w - 4, ico_h - 4, bg)
     for i in range(6):
-        lcd.fill_rect(10 * i + x + 6, y + 6, 4, 4, foreground)
-        lcd.fill_rect(10 * i + x + 6, y + 14, 4, 4, foreground)
-        lcd.fill_rect(10 * i + x + 6, y + 22, 4, 4, foreground)
-    lcd.fill_rect(x + 18, y + 22, 28, 4, foreground)
+        lcd.fill_rect(10 * i + x + 6, y + 6, 4, 4, fg)
+        lcd.fill_rect(10 * i + x + 6, y + 14, 4, 4, fg)
+        lcd.fill_rect(10 * i + x + 6, y + 22, 4, 4, fg)
+    lcd.fill_rect(x + 18, y + 22, 28, 4, fg)
 
 
 def demo_split_rect():
