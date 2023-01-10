@@ -43,7 +43,7 @@ def split_rect(rect: Rect, split=160):
     lower, upper = None, None
 
     if not y1_div and not y2_div:
-        upper = RectHigh(*rect)
+        upper = RectHigh(rect.x, rect.y, rect.w, rect.h, rect.c)
     elif y1_div and y2_div:
         lower = RectLow(rect.x, y1_mod, rect.w, rect.h, rect.c)
     elif not y1_div and y2_div:
