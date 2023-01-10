@@ -1,7 +1,14 @@
 from time import sleep
 
-from utils import Color, Position, Rect, split_rect, RectHigh, RectLow
+from utils import Rect, split_rect, RectHigh, RectLow
 from waveshare import LCD3inch5
+from micropython import const
+
+RED = const(0x07E0)
+GREEN = const(0x001f)
+BLUE = const(0xf800)
+WHITE = const(0xffff)
+BLACK = const(0x0000)
 
 
 def logo(display: LCD3inch5):
@@ -26,22 +33,22 @@ def show_keyboard():
     """Demo code form Waveshare."""
     lcd = LCD3inch5()
     lcd.backlight(20)
-    lcd.fill(Color.WHITE)
+    lcd.fill(WHITE)
     lcd.show_up()
     while True:
         coord = lcd.get_touchpoint()
         if coord is not None:
             if coord.y < 32:
                 if 420 < coord.x < 480:
-                    keyboard_icon(lcd, Position.SE, True)
+                    keyboard_icon(lcd, 'SE', True)
         else:
-            lcd.fill(Color.WHITE)
-            keyboard_icon(lcd, Position.SE)
+            lcd.fill(WHITE)
+            keyboard_icon(lcd, 'SE')
         lcd.show_down()
         sleep(0.1)
 
 
-def keyboard_icon(lcd: LCD3inch5, pos=Position.SE, invert=False):
+def keyboard_icon(lcd: LCD3inch5, pos='SE', invert=False):
     """
     Show keyboard icon.
 
@@ -49,20 +56,20 @@ def keyboard_icon(lcd: LCD3inch5, pos=Position.SE, invert=False):
     :param pos: 'SE', 'NW', 'NE', 'SW'
     :param invert: invert colors
     """
-    fg = Color.BLACK
-    bg = Color.WHITE
+    fg = BLACK
+    bg = WHITE
     if invert:
-        fg = Color.WHITE
-        bg = Color.BLACK
+        fg = WHITE
+        bg = BLACK
     ico_w, ico_h = 68, 32
     dpl_w, dpl_h = 480, 160
-    if pos == Position.SE:
+    if pos == 'SE':
         pos_x, pos_y = dpl_w, dpl_h
-    elif pos == Position.NW:
+    elif pos == 'NW':
         pos_x, pos_y = ico_w, ico_h
-    elif pos == Position.SW:
+    elif pos == 'SW':
         pos_x, pos_y = ico_w, dpl_h
-    elif pos == Position.NE:
+    elif pos == 'NE':
         pos_x, pos_y = dpl_w, ico_h
     x = pos_x - ico_w
     y = pos_y - ico_h
@@ -82,16 +89,16 @@ def demo_split_rect():
     lcd = LCD3inch5()
     lcd.backlight(20)
 
-    rects = split_rect(Rect(40, 80, 40, 40, Color.BLUE))
-    rects.extend(split_rect(Rect(40, 140, 40, 40, Color.GREEN)))
-    rects.extend(split_rect(Rect(40, 200, 40, 40, Color.RED)))
+    rects = split_rect(Rect(40, 80, 40, 40, BLUE))
+    rects.extend(split_rect(Rect(40, 140, 40, 40, GREEN)))
+    rects.extend(split_rect(Rect(40, 200, 40, 40, RED)))
 
-    lcd.fill(Color.WHITE)
+    lcd.fill(WHITE)
     for up in [upper for upper in rects if isinstance(upper, RectHigh)]:
         lcd.fill_rect(up.x, up.y, up.w, up.h, up.c)
     lcd.show_up()
 
-    lcd.fill(Color.WHITE)
+    lcd.fill(WHITE)
     for low in [lower for lower in rects if isinstance(lower, RectLow)]:
         lcd.fill_rect(low.x, low.y, low.w, low.h, low.c)
     lcd.show_down()
