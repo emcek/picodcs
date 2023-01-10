@@ -4,7 +4,7 @@ from time import sleep
 from framebuf import FrameBuffer
 
 from pico import Pico
-from utils import Color, Position, Rect, split_rect
+from utils import Color, Position, Rect, split_rect, RectHigh, RectLow
 from waveshare import LCD3inch5
 
 
@@ -97,24 +97,26 @@ def keyboard_icon(lcd: LCD3inch5, pos=Position.SE, invert=False):
         foreground = Color.WHITE
         background = Color.BLACK
     ico_w, ico_h = 68, 32
+    dpl_w, dpl_h = 480, 160
     if pos == Position.SE:
-        pos_x, pos_y = 480, 160
+        pos_x, pos_y = dpl_w, dpl_h
     elif pos == Position.NW:
-        pos_x, pos_y = 68, 32
+        pos_x, pos_y = ico_w, ico_h
     elif pos == Position.SW:
-        pos_x, pos_y = 68, 160
+        pos_x, pos_y = ico_w, dpl_h
     elif pos == Position.NE:
-        pos_x, pos_y = 480, 32
-
+        pos_x, pos_y = dpl_w, ico_h
     x = pos_x - ico_w
     y = pos_y - ico_h
-    lcd.fill_rect(x, y, ico_w, ico_h, foreground)
-    lcd.fill_rect(x + 2, y + 2, ico_w - 4, ico_h - 4, background)
+
+    upper, lower = [], []
+    upper1, lower1 = split_rect(Rect(x, y, ico_w, ico_h, foreground))
+    split_rect(Rect(x + 2, y + 2, ico_w - 4, ico_h - 4, background))
     for i in range(6):
-        lcd.fill_rect(10 * i + x + 6, y + 6, 4, 4, foreground)
-        lcd.fill_rect(10 * i + x + 6, y + 14, 4, 4, foreground)
-        lcd.fill_rect(10 * i + x + 6, y + 22, 4, 4, foreground)
-    lcd.fill_rect(x + 18, y + 22, 28, 4, foreground)
+        split_rect(Rect(10 * i + x + 6, y + 6, 4, 4, foreground))
+        split_rect(Rect(10 * i + x + 6, y + 14, 4, 4, foreground))
+        split_rect(Rect(10 * i + x + 6, y + 22, 4, 4, foreground))
+    split_rect(Rect(x + 18, y + 22, 28, 4, foreground))
 
 
 def demo_split_rect():
@@ -122,28 +124,23 @@ def demo_split_rect():
     lcd = LCD3inch5()
     lcd.backlight(20)
 
-    upper1, lower1 = split_rect(Rect(40, 80, 40, 40))
-    upper2, lower2 = split_rect(Rect(40, 140, 40, 40))
-    upper3, lower3 = split_rect(Rect(40, 200, 40, 40))
+    rects = split_rect(Rect(40, 80, 40, 40, Color.BLUE))
+    rects.extend(split_rect(Rect(40, 140, 40, 40, Color.GREEN)))
+    rects.extend(split_rect(Rect(40, 200, 40, 40, Color.RED)))
 
-    uppers = [upper for upper in (upper1, upper2, upper3) if upper is not None]
-    lowers = [lower for lower in (lower1, lower2, lower3) if lower is not None]
+    lcd.fill(Color.WHITE)
+    for up in [upper for upper in rects if isinstance(upper, RectHigh)]:
+        lcd.fill_rect(*up)
+    lcd.show_up()
 
-    if any(uppers):
-        lcd.fill(Color.WHITE)
-        for upper in uppers:
-            lcd.fill_rect(upper.x, upper.y, upper.w, upper.h, Color.BLUE)
-        lcd.show_up()
-
-    if any(lowers):
-        lcd.fill(Color.WHITE)
-        for lower in lowers:
-            lcd.fill_rect(lower.x, lower.y, lower.w, lower.h, Color.RED)
-        lcd.show_down()
+    lcd.fill(Color.WHITE)
+    for low in [lower for lower in rects if isinstance(lower, RectLow)]:
+        lcd.fill_rect(*low)
+    lcd.show_down()
 
 
 if __name__ == '__main__':
-    show_keyboard()
-    # demo_split_rect()
+    # show_keyboard()
+    demo_split_rect()
     # main()
     # pico_serial()
