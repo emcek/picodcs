@@ -66,22 +66,19 @@ def logo(display: FrameBuffer):
 
 
 def show_keyboard():
-    """Show clickable keyborad icon."""
+    """Show clickable keyboard icon."""
     lcd = LCD3inch5()
     lcd.backlight(20)
     lcd.fill(Color.WHITE)
-    keyboard_icon(lcd, Position.SE)
-    lcd.show_down()
     while True:
         coord = lcd.get_touchpoint()
         if coord is not None:
             if coord.y < 32:
                 if 420 < coord.x < 480:
-                    # lcd.fill_rect(lcd.width - 68, lcd.height - 32, 68, 32, Color.RED)
-                    keyboard_icon(lcd, Position.SE, True)
+                    keyboard_icon(lcd, Position.SW, True)
         else:
             lcd.fill(Color.WHITE)
-            keyboard_icon(lcd, Position.SE)
+            keyboard_icon(lcd, Position.SW)
         lcd.show_down()
         sleep(0.1)
 
@@ -90,8 +87,8 @@ def keyboard_icon(lcd: LCD3inch5, pos=Position.SE, invert=False):
     """
     Show keyboard icon.
 
-    :param lcd: LDC instance
-    :param pos: 'SE' or 'NW'
+    :param lcd: LCD instance
+    :param pos: 'SE', 'NW', 'NE', 'SW'
     :param invert: invert colors
     """
     foreground = Color.BLACK
@@ -99,25 +96,25 @@ def keyboard_icon(lcd: LCD3inch5, pos=Position.SE, invert=False):
     if invert:
         foreground = Color.WHITE
         background = Color.BLACK
-
+    ico_w, ico_h = 68, 32
     if pos == Position.SE:
-        # keyboard icon lower right
-        lcd.fill_rect(lcd.width - 68, lcd.height - 32, 68, 32, foreground)
-        lcd.fill_rect(lcd.width - 66, lcd.height - 30, 64, 28, background)
-        for i in range(6):
-            lcd.fill_rect(10 * i + lcd.width - 60, lcd.height - 10, 4, 4, foreground)
-            lcd.fill_rect(10 * i + lcd.width - 60, lcd.height - 18, 4, 4, foreground)
-            lcd.fill_rect(10 * i + lcd.width - 60, lcd.height - 26, 4, 4, foreground)
-        lcd.fill_rect(lcd.width - 48, lcd.height - 10, 28, 4, foreground)
+        pos_x, pos_y = 480, 160
     elif pos == Position.NW:
-        # keyboard icon upper left
-        lcd.fill_rect(0, 0, 68, 32, foreground)
-        lcd.fill_rect(2, 2, 64, 28, background)
-        for i in range(6):
-            lcd.fill_rect(10 * i + 6, 6, 4, 4, foreground)
-            lcd.fill_rect(10 * i + 6, 14, 4, 4, foreground)
-            lcd.fill_rect(10 * i + 6, 22, 4, 4, foreground)
-        lcd.fill_rect(18, 22, 28, 4, foreground)
+        pos_x, pos_y = 68, 32
+    elif pos == Position.SW:
+        pos_x, pos_y = 68, 160
+    elif pos == Position.NE:
+        pos_x, pos_y = 480, 32
+
+    x = pos_x - ico_w
+    y = pos_y - ico_h
+    lcd.fill_rect(x, y, ico_w, ico_h, foreground)
+    lcd.fill_rect(x + 2, y + 2, ico_w - 4, ico_h - 4, background)
+    for i in range(6):
+        lcd.fill_rect(10 * i + x + 6, y + 6, 4, 4, foreground)
+        lcd.fill_rect(10 * i + x + 6, y + 14, 4, 4, foreground)
+        lcd.fill_rect(10 * i + x + 6, y + 22, 4, 4, foreground)
+    lcd.fill_rect(x + 18, y + 22, 28, 4, foreground)
 
 
 def demo_split_rect():
@@ -146,7 +143,7 @@ def demo_split_rect():
 
 
 if __name__ == '__main__':
-    # show_keyboard()
-    demo_split_rect()
+    show_keyboard()
+    # demo_split_rect()
     # main()
     # pico_serial()
