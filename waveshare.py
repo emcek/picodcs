@@ -259,9 +259,10 @@ class LCD3inch5(framebuf.FrameBuffer):
 
         :return: tuple of int coordinates: x and y
         """
+        x_point, y_point = -10, -10
         coord = self.absolute_coord()
         if coord is not None:
             x_point = int((coord.x - 430) * 480 / 3270)
             y_point = int((coord.y - 430) * 320 / 3270)
             print('****', f'x: {x_point:>3} y: {y_point:>3}\n')
-            return Coord(x=x_point, y=y_point)
+        return Coord(x=x_point, y=y_point)
