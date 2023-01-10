@@ -88,12 +88,12 @@ def demo_split_rect():
 
     lcd.fill(Color.WHITE)
     for up in [upper for upper in rects if isinstance(upper, RectHigh)]:
-        lcd.fill_rect(*up)
+        lcd.fill_rect(up.x, up.y, up.w, up.h, up.c)
     lcd.show_up()
 
     lcd.fill(Color.WHITE)
     for low in [lower for lower in rects if isinstance(lower, RectLow)]:
-        lcd.fill_rect(*low)
+        lcd.fill_rect(low.x, low.y, low.w, low.h, low.c)
     lcd.show_down()
 
 
