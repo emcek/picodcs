@@ -1,8 +1,9 @@
 from time import sleep
 
+from micropython import const
+
 from utils import Rect, split_rect, RectHigh, RectLow
 from waveshare import LCD3inch5
-from micropython import const
 
 RED = const(0x07E0)
 GREEN = const(0x001f)
