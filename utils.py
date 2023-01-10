@@ -23,7 +23,7 @@ class Position:
 
 
 Coord = namedtuple('Coord', ('x', 'y'))
-Rect = namedtuple('Rect', ('x', 'y', 'w', 'h'))
+Rect = namedtuple('Rect', ('x', 'y', 'w', 'h', 'c'))
 
 
 def split_rect(rect: Rect, height=160):
@@ -43,8 +43,8 @@ def split_rect(rect: Rect, height=160):
     if not y1_div and not y2_div:
         upper = rect
     elif y1_div and y2_div:
-        lower = Rect(rect.x, y1_mod, rect.w, rect.h)
+        lower = Rect(rect.x, y1_mod, rect.w, rect.h, rect.c)
     elif not y1_div and y2_div:
-        upper = Rect(rect.x, rect.y, rect.w, rect.h - y2_mod)
-        lower = Rect(rect.x, 0, rect.w, y2_mod)
+        upper = Rect(rect.x, rect.y, rect.w, rect.h - y2_mod, rect.c)
+        lower = Rect(rect.x, 0, rect.w, y2_mod, rect.c)
     return upper, lower
