@@ -1,6 +1,6 @@
 from time import sleep
 
-from micropython import const
+from micropython import const, native
 
 from utils import Rect, split_rect, RectHigh, RectLow
 from waveshare import LCD3inch5
@@ -30,6 +30,7 @@ def logo(display: LCD3inch5):
     display.text('IPS 320x480', 40, 24, 1)
 
 
+@native
 def show_keyboard():
     """Demo code form Waveshare."""
     lcd = LCD3inch5()
@@ -49,6 +50,7 @@ def show_keyboard():
         sleep(0.1)
 
 
+@native
 def keyboard_icon(lcd: LCD3inch5, pos='SE', invert=False):
     """
     Show keyboard icon.
