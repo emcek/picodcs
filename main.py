@@ -13,15 +13,16 @@ BLACK = micropython.const(0x0000)
 
 
 @micropython.native
-def show_icon(ico, lcd, pos='SE', w=32, h=32, invert=False):
+def show_icon(ico: str, lcd: LCD3inch5, pos='SE', w=32, h=32, invert=False):
     """
+    Show icon in general position at LCD.
 
-    :param ico:
-    :param lcd:
-    :param pos:
-    :param w:
-    :param h:
-    :param invert:
+    :param ico: icon name as string
+    :param lcd: LCD instance
+    :param pos: SE, SW, NE or NW
+    :param w: width as int
+    :param h: height as int
+    :param invert: flip fg with bg
     """
     fg = BLACK
     bg = WHITE
@@ -47,17 +48,17 @@ def show_icon(ico, lcd, pos='SE', w=32, h=32, invert=False):
 
 
 @micropython.native
-def logo(display: LCD3inch5, x, y, ico_w, ico_h, fg, bg):
+def logo(display: LCD3inch5, x: int, y: int, ico_w: int, ico_h: int, fg: int, bg: int):
     """
     Draw MircoPython logo at LCD.
 
     :param display: lcd instance
-    :param x:
-    :param y:
-    :param ico_w:
-    :param ico_h:
-    :param fg:
-    :param bg:
+    :param x: position X
+    :param y: position Y
+    :param ico_w: icon width
+    :param ico_h: icon height
+    :param fg: foreground color
+    :param bg: background color
     """
     display.fill_rect(x, y, ico_w, ico_h, fg)
     display.fill_rect(x + 2, y + 2, ico_w - 4, ico_h - 4, bg)
@@ -68,17 +69,17 @@ def logo(display: LCD3inch5, x, y, ico_w, ico_h, fg, bg):
 
 
 @micropython.native
-def keyboard(display: LCD3inch5, x, y, ico_w, ico_h, fg, bg):
+def keyboard(display: LCD3inch5, x: int, y: int, ico_w: int, ico_h: int, fg: int, bg: int):
     """
     Draw keyboard icon.
 
-    :param display: Display instance
-    :param x:
-    :param y:
-    :param ico_w:
-    :param ico_h:
-    :param fg:
-    :param bg:
+    :param display: lcd instance
+    :param x: position X
+    :param y: position Y
+    :param ico_w: icon width
+    :param ico_h: icon height
+    :param fg: foreground color
+    :param bg: background color
     """
     display.fill_rect(x, y, ico_w, ico_h, fg)
     display.fill_rect(x, y, ico_w, ico_h, fg)
