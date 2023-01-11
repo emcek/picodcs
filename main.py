@@ -118,15 +118,18 @@ def demo_split_rect():
     rects.extend(split_rect(Rect(40, 140, 40, 40, GREEN)))
     rects.extend(split_rect(Rect(40, 200, 40, 40, RED)))
 
-    lcd.fill(WHITE)
-    for up in [upper for upper in rects if isinstance(upper, RectHigh)]:
-        lcd.fill_rect(up.x, up.y, up.w, up.h, up.c)
-    lcd.show_up()
-
-    lcd.fill(WHITE)
-    for low in [lower for lower in rects if isinstance(lower, RectLow)]:
-        lcd.fill_rect(low.x, low.y, low.w, low.h, low.c)
-    lcd.show_down()
+    high = [upper for upper in rects if isinstance(upper, RectHigh)]
+    low = [lower for lower in rects if isinstance(lower, RectLow)]
+    if high:
+        lcd.fill(WHITE)
+        for up in high:
+            lcd.fill_rect(up.x, up.y, up.w, up.h, up.c)
+        lcd.show_up()
+    if low:
+        lcd.fill(WHITE)
+        for down in low:
+            lcd.fill_rect(down.x, down.y, down.w, down.h, down.c)
+        lcd.show_down()
 
 
 if __name__ == '__main__':
