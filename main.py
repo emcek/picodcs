@@ -12,23 +12,36 @@ WHITE = micropython.const(0xffff)
 BLACK = micropython.const(0x0000)
 
 
-def logo(display: LCD3inch5):
+def logo(display: LCD3inch5, pos, invert=False):
     """
     Show MircoPython logo at LCD.
 
     :param display: lcd instance
     """
-    # display.fill(0)
-    display.fill_rect(0, 0, 32, 32, 1)
-    display.fill_rect(2, 2, 28, 28, 0)
-    display.vline(9, 8, 22, 1)
-    display.vline(16, 2, 22, 1)
-    display.vline(23, 8, 22, 1)
-    display.fill_rect(26, 24, 2, 4, 1)
-    display.text('MicroPython', 40, 0, 1)
-    display.text('Waveshare', 40, 12, 1)
-    display.text('IPS 320x480', 40, 24, 1)
+    fg = BLACK
+    bg = WHITE
+    if invert:
+        fg = WHITE
+        bg = BLACK
+    ico_w, ico_h = 32, 32
+    dpl_w, dpl_h = 480, 160
+    if pos == 'SE':
+        pos_x, pos_y = dpl_w, dpl_h
+    elif pos == 'NW':
+        pos_x, pos_y = ico_w, ico_h
+    elif pos == 'SW':
+        pos_x, pos_y = ico_w, dpl_h
+    elif pos == 'NE':
+        pos_x, pos_y = dpl_w, ico_h
+    x = pos_x - ico_w
+    y = pos_y - ico_h
 
+    display.fill_rect(x, y, ico_w, ico_h, fg)
+    display.fill_rect(x + 2, y + 2, ico_w - 4, ico_h - 4, bg)
+    display.vline(x + 9, y + 8, 22, fg)
+    display.vline(x + 16, y + 2, 22, fg)
+    display.vline(x + 23, y + 8, 22, fg)
+    display.fill_rect(x + 26, y + 24, 2, 4, fg)
 
 @micropython.native
 def show_keyboard():
