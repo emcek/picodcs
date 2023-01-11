@@ -1,3 +1,4 @@
+import sys
 from time import sleep
 
 import micropython
@@ -102,10 +103,12 @@ def show_keyboard():
         coord = lcd.get_touchpoint()
         if 0 < coord.y < 32 and 420 < coord.x < 480:
             show_icon('keyboard', lcd, 'SE', w=68, h=32, invert=True)
+            show_icon('logo', lcd, 'NW', w=32, h=32)
+            lcd.text(sys.version, 0, 40, BLACK)
+            lcd.text(sys.implementation._machine, 0, 50, BLACK)
         else:
             lcd.fill(WHITE)
             show_icon('keyboard', lcd, 'SE', w=68, h=32)
-            show_icon('logo', lcd, 'NW', w=32, h=32)
         lcd.show_down()
         sleep(0.1)
 
